@@ -28,19 +28,16 @@ func main() {
 		os.Exit(1)
 	}
 
-	gitUser := github.GetUser(user)
+	gitUser := github.GetUser(user, token)
 
 	fmt.Printf("Stats for %s(%s)\n", gitUser.Name, gitUser.Login)
 
 	fmt.Printf("Public Gists: %d\n", gitUser.PublicGists)
 	fmt.Printf("Public Repos: %d\n", gitUser.PublicRepos)
 
-
-	privUser := github.GetPrivateUser(user, token)
-
-	fmt.Printf("Private Gists: %d\n", privUser.PrivateGists)
-	fmt.Printf("Private Repos: %d\n", privUser.PrivateRepos)
-	fmt.Printf("Total Private Repos: %d\n", privUser.TotalPrivateRepos)
+	fmt.Printf("Private Gists: %d\n", gitUser.PrivateGists)
+	fmt.Printf("Private Repos: %d\n", gitUser.PrivateRepos)
+	fmt.Printf("Total Private Repos: %d\n", gitUser.TotalPrivateRepos)
 
 }
 
