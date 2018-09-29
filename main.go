@@ -9,10 +9,9 @@ import (
 
 var (
 	user string
+	token string
 )
 
-// todo auth key and request private counts
-// todo what happens if you make private request against different user
 // todo oauth flow instead of api key?
 // todo start walking graph
 // todo get and analyze PRs from a repo
@@ -29,14 +28,23 @@ func main() {
 		os.Exit(1)
 	}
 
-	user := github.GetUser(user)
+	gitUser := github.GetUser(user)
 
-	fmt.Printf("Stats for %s(%s)\n", user.Name, user.Login)
+	fmt.Printf("Stats for %s(%s)\n", gitUser.Name, gitUser.Login)
 
-	fmt.Printf("Public Gists: %d\n", user.PublicGists)
-	fmt.Printf("Public Repos: %d\n", user.PublicRepos)
+	fmt.Printf("Public Gists: %d\n", gitUser.PublicGists)
+	fmt.Printf("Public Repos: %d\n", gitUser.PublicRepos)
+
+
+	privUser := github.GetPrivateUser(user, token)
+
+	fmt.Printf("Private Gists: %d\n", privUser.PrivateGists)
+	fmt.Printf("Private Repos: %d\n", privUser.PrivateRepos)
+	fmt.Printf("Total Private Repos: %d\n", privUser.TotalPrivateRepos)
+
 }
 
 func init() {
 	flag.StringVarP(&user, "user", "u", "", "Search Users")
+	flag.StringVarP(&token, "token", "t", "", "Auth Token")
 }
